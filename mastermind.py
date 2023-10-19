@@ -1,4 +1,4 @@
-import pygame as pg
+mport pygame as pg
 import sys
 from utils import *
 import random
@@ -38,7 +38,7 @@ def make_buttons(letters):
         buttons.append(button)
     return buttons
 
-class LongestWord():
+class Mastermind():
     def __init__(self, screen):
         self.screen = screen
         self.state = 'longest_word'

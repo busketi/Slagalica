@@ -30,7 +30,7 @@ def display_text(screen, text, x, y):
     screen.blit(text_surface, text_rect)
 
 class Button:
-    def __init__(self, x, y, width, height, text, font, text_color, button_color, action=None):
+    def __init__(self, x, y, width, height, text, font, text_color, button_color, action=0):
         self.x = x
         self.y = y
         self.width = width
@@ -51,4 +51,7 @@ class Button:
 
     def is_clicked(self, pos):
         x, y = pos
+        if self.x < x < self.x + self.width and self.y < y < self.y + self.height:
+            self.button_color = (0, 255, 255)
+            self.action = 1
         return self.x < x < self.x + self.width and self.y < y < self.y + self.height

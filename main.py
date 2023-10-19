@@ -28,11 +28,11 @@ class GameState():
 
         self.screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         # pg.display.set_caption("Arcade Game")
-        self.next_button = Button(300, 200, 200, 50, "NEXT", 36, (255, 255, 255), (0, 0, 255))
+        self.next_button = Button(300, 200, 200, 50, "PLAY", 36, (255, 255, 255), (0, 0, 255))
 
         self.state = 'main_menu'
 
-        self.Longest_Word = LongestWord(self.screen, self.state)
+        self.Longest_Word = LongestWord(self.screen)
 
     def main_menu(self):
         for event in pg.event.get():
@@ -53,6 +53,8 @@ class GameState():
                 mouse_pos = pg.mouse.get_pos()
                 if self.next_button.is_clicked(mouse_pos):
                 # Perform some action when the button is clicked
+                    self.state = 'longest_word'
+
                     print("Button clicked!")
 
 
@@ -63,9 +65,9 @@ class GameState():
 
 
         # Display the menu options
-        display_text(self.screen, "Main Menu", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
-        display_text(self.screen, "Press Enter to Play", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-        display_text(self.screen, "Press Q to Quit", SCREEN_WIDTH // 2, 3 * SCREEN_HEIGHT // 4)
+        # display_text(self.screen, "Main Menu", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
+        # display_text(self.screen, "Press Enter to Play", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        # display_text(self.screen, "Press Q to Quit", SCREEN_WIDTH // 2, 3 * SCREEN_HEIGHT // 4)
         self.next_button.draw(self.screen)
     # def longest_word(self):
     #     for event in pg.event.get():
@@ -83,7 +85,7 @@ class GameState():
     #                 sys.exit()
 
     #     # Set the background
-    #     set_background(background_path)
+    #     set_background(backgrounqd_path)
 
     #     # Display the menu options
     #     display_text("Main Menu", SCREEN_WIDTH // 2, SCREEN_HEIGHT // 4)
@@ -147,7 +149,7 @@ class GameState():
                     # Start the game (you can replace this with your game code)
                     self.state = 'longest_word'
                     print("Starting the game!")
-                if event.key == pg.K_q:
+                if event.key == pg.K_qq:
                     # Quit the game
                     pg.quit()
                     sys.exit()
