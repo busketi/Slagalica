@@ -1,4 +1,4 @@
-mport pygame as pg
+import pygame as pg
 import sys
 from utils import *
 import random
@@ -40,11 +40,12 @@ def make_buttons(letters):
 
 class Mastermind():
     def __init__(self, screen):
+        self.image_btn = ImageButton(100, 100 , 80,80 , (255, 255, 255), IMGS_DIR+"/diamonds.png")
         self.screen = screen
         self.state = 'longest_word'
         self.next_button_lw = Button(500, 500, 200, 50, "Sledeca igra", 24, (255, 255, 255), (0, 0, 255))
-        self.letters = make_letters()
-        self.buttons = make_buttons(self.letters)
+        # self.letters = make_letters()
+        # self.buttons = make_buttons(self.letters)
         self.backspace_button = Button(600, 400,  50, 50, "<-", 35, (255, 255, 255), (0, 255, 0))
         self.erase_all_button = Button(700, 400, 50, 50, "X", 35, (255, 255, 255), (255, 0, 0))
         self.check_word_button = Button(50, 400, 200, 50, "Potvrdi rec", 24, (255, 255, 255), (255, 0, 0))
@@ -58,7 +59,7 @@ class Mastermind():
         self.screen = screen
         run = True
         print("LR")
-        print(self.letters)
+        # print(self.letters)
         while run:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -86,12 +87,12 @@ class Mastermind():
                         self.state = 'mastermind'
                         print("Button clicked!")
                         continue
-                    for i,elem in enumerate(self.buttons):
-                        print(elem.action)
-                        if elem.action == 0 and elem.is_clicked(mouse_pos):
-                            self.player_word.append(elem.text)
-                            self.player_word_order.append(i)
-                            continue
+                    # for i,elem in enumerate(self.buttons):
+                    #     print(elem.action)
+                    #     if elem.action == 0 and elem.is_clicked(mouse_pos):
+                    #         self.player_word.append(elem.text)
+                    #         self.player_word_order.append(i)
+                    #         continue
                     if self.backspace_button.is_clicked(mouse_pos):
                         if len(self.player_word)>0:
                             self.player_word.pop()
@@ -121,6 +122,7 @@ class Mastermind():
             self.backspace_button.draw(self.screen)
             self.erase_all_button.draw(self.screen)
             self.check_word_button.draw(self.screen)
+            self.image_btn.draw(self.screen)
             for elem in self.buttons:
                 elem.draw(self.screen)
 

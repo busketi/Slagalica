@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 
-IMGS_DIR = "./Slagalica/imgs"
+IMGS_DIR = "./imgs"
 
 
 # Constants
@@ -49,6 +49,46 @@ class Button:
         text_rect.center = (self.x + self.width // 2, self.y + self.height // 2)
         screen.blit(text_surface, text_rect)
 
+    def is_clicked(self, pos):
+        x, y = pos
+        if self.x < x < self.x + self.width and self.y < y < self.y + self.height:
+            self.button_color = (0, 255, 255)
+            self.action = 1
+        return self.x < x < self.x + self.width and self.y < y < self.y + self.height
+
+# class ImageButton:
+#     def __init__(self, x, y, image_path, action=None):
+#         self.x = x
+#         self.y = y
+#         self.image = pg.image.load(image_path)  # Load the image
+#         self.action = action
+
+#     def draw(self, screen):
+#         screen.blit(self.image, self.rect)
+
+#     def is_clicked(self, pos):
+#         x, y = pos
+#         if self.rect.collidepoint(x, y):
+#             self.action = 1
+#         else:
+#             self.action = 0
+#         return self.action
+    
+class ImageButton:
+    def __init__(self, x, y, width, height, button_color, image_path, action=0):
+        self.x = x
+        self.y = y
+        self.image = pg.image.load(image_path)
+        self.image_rect = self.image.get_rect()
+        self.image_rect.center = (x + width // 2, y + height // 2)
+        self.width = width
+        self.height = height
+        self.button_color = button_color
+        self.action = action
+
+    def draw(self, screen):
+        pg.draw.rect(screen, self.button_color, (self.x, self.y, self.width, self.height))
+        screen.blit(self.image, self.image_rect)
     def is_clicked(self, pos):
         x, y = pos
         if self.x < x < self.x + self.width and self.y < y < self.y + self.height:

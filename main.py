@@ -2,8 +2,10 @@ import pygame as pg
 import sys
 from utils import *
 from longestword import *
+from mastermind import *
 
-IMGS_DIR = "./Slagalica/imgs"
+# IMGS_DIR = "./Slagalica/imgs"
+IMGS_DIR = "./imgs"
 # Initialize Pygame
 pg.init()
 
@@ -33,6 +35,7 @@ class GameState():
         self.state = 'main_menu'
 
         self.Longest_Word = LongestWord(self.screen)
+        self.Master_mind = Mastermind(self.screen)
 
     def main_menu(self):
         for event in pg.event.get():
@@ -42,7 +45,7 @@ class GameState():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_RETURN:
                     # Start the game (you can replace this with your game code)
-                    self.state = 'longest_word'
+                    self.state = 'master_mind'
                     print("Starting the game!")
                 if event.key == pg.K_q:
                     # Quit the game
@@ -53,7 +56,7 @@ class GameState():
                 mouse_pos = pg.mouse.get_pos()
                 if self.next_button.is_clicked(mouse_pos):
                 # Perform some action when the button is clicked
-                    self.state = 'longest_word'
+                    self.state = 'master_mind'
 
                     print("Button clicked!")
 
@@ -168,9 +171,9 @@ class GameState():
         if self.state == 'longest_word':
             self.state = self.Longest_Word.play(self.screen)
         if self.state == 'find_number':
-            self.find_number()
+            print(5)
         if self.state == 'master_mind':
-            self.master_mind()
+            self.state == self.Master_mind.play(self.screen)
         if self.state == 'who_knows_knows':
             self.who_knows_knows()
 game = GameState()
