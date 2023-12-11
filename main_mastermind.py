@@ -3,6 +3,7 @@ import sys
 # from utils import *
 from longestword import *
 from mastermind import *
+from solver import solveKnuth
 
 # IMGS_DIR = "./Slagalica/imgs"
 IMGS_DIR = "./imgs"
@@ -11,7 +12,7 @@ pg.init()
 
 # Constants
 SCREEN_WIDTH = 1400
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 700
 
 WHITE = (255, 255, 255)
 GREEN =  (0, 255, 0)
@@ -102,10 +103,29 @@ def draw_row(symbols, position, xspace):
         draw_symbol(symbol, temp_position)
     # pass
 
-def draw_table(symbols_list, position, xspace, yspace):
+def draw_pegs(pegs, position):
+    peg_color = [WHITE, WHITE, WHITE, WHITE]
+    # print(pegs[0])
+    print(type(peg_color))
+    print(len(peg_color))
+    for i in range(0,pegs[0]):
+        peg_color[i]=RED
+    for i in range(pegs[0],pegs[1]+pegs[0]):
+        peg_color[i]=BLUE
+    print(peg_color)
+    print(len(peg_color))
+
+    for y in range(2):
+        for x in range(2):
+            temp_position = (position[0]+x*40,position[1]+y*40)
+            pg.draw.circle(SCREEN, peg_color[x+y*2], temp_position, 5)
+
+def draw_table(symbols_list, pegs, position, xspace, yspace):
     for i,symbols in enumerate(symbols_list):
         temp_position = (position[0],position[1]+i*(yspace+FIELD_WIDTH))
         draw_row(symbols, temp_position, xspace)
+        temp_position = (position[0]+4*(xspace+FIELD_WIDTH),position[1]+i*(yspace+FIELD_WIDTH))
+        draw_pegs(pegs[i], temp_position)
     pass
 
 def draw_symbol_buttons(symbols_buttons):
@@ -114,7 +134,6 @@ def draw_symbol_buttons(symbols_buttons):
             symbols_buttons[i*3+j].draw()
 
 
-             
 
 random_btn = Button((650, 30), 100, 40, "RANDOM", 24, BLACK, YELLOW)
 solve_btn = Button((650, 90), 100, 40, "SOLVE", 24, BLACK, GREEN)
@@ -122,6 +141,9 @@ erase_btn = Button((650, 150), 100, 40, "<<", 35, BLACK, RED)
 line_position = (0,300)
 symbol_buttons = list()
 solution = [0,1,2,3]
+knuth_symbols = [[5 for _ in range(4)] for _ in range(5)]
+knuth_pegs = [(0,0) for _ in range(5)]
+
 for i in range(2):
     for j in range(3):
         symbol_buttons.append(SymbolButton(i*3+j,(800+j*(FIELD_WIDTH+20),40+i*(FIELD_HEIGHT+20))))
@@ -147,6 +169,8 @@ while True:
                 solution = [random.randint(0, 5) for _ in range(4)]
                 print("Random clicked!")
                 continue
+            if solve_btn.is_clicked(mouse_pos):
+                knuth_symbols, knuth_pegs = solveKnuth(solution)
             for symbol,btn in enumerate(symbol_buttons):
                 if btn.is_clicked(mouse_pos):
                     solution[line_position[0]] = symbol
@@ -166,6 +190,7 @@ while True:
     # draw_row([0,0,0],(200,100),70,"a")
     draw_row(solution,(300,80),20)
     draw_symbol_buttons(symbol_buttons)
+    draw_table(knuth_symbols, knuth_pegs, (100,160),20,20)
     pg.draw.line(SCREEN, RED, (line_position[1],146), (line_position[1]+60,146), 6) 
     # draw_table([[0,0,0],[0,0,0]],(200,100),15,15)
 
