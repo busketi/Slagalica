@@ -22,17 +22,6 @@ def compare(x,y):
         yellow += min(np.count_nonzero(x==i),np.count_nonzero(y==i))
     return red, yellow-red
 
-def knuth_score(guess, solutions):
-    pegs = np.zeros([5,5])
-    for solution in solutions:
-        # print(compare(guess,solution))
-        pegs[compare(guess,solution)] += 1
-    # print(np.max(pegs))
-    # print(pegs)
-    # print(np.max(pegs))
-    return np.max(pegs)
-
-
 def remove_solutions(guess,r,y,solutions):
     i = 0
     while (i != len(solutions)):
@@ -43,7 +32,31 @@ def remove_solutions(guess,r,y,solutions):
         i+=1
     return solutions
 
-def find_next_guess(remaining_solutions):
+
+def knuth_score(guess, solutions):
+    pegs = np.zeros([5,5])
+    for solution in solutions:
+        # print(compare(guess,solution))
+        pegs[compare(guess,solution)] += 1
+    # print(np.max(pegs))
+    # print(pegs)
+    # print(np.max(pegs))
+    return np.max(pegs)
+
+def my_alg_score(guess, solutions):
+    pegs = np.zeros([5,5])
+    for solution in solutions:
+        # print(compare(guess,solution))
+        pegs[compare(guess,solution)] += 1
+    # print(np.max(pegs))
+    # print(pegs)
+    # print(np.max(pegs))
+    return np.sum(np.power(pegs,3))
+
+
+
+
+def find_next_guess(remaining_solutions,algorithm):
     solutions = list(product(range(6), repeat=4))
     score = np.zeros(1296)
 
@@ -51,7 +64,7 @@ def find_next_guess(remaining_solutions):
         # print(guess)
         # print(knuth_score(guess,remaining_solutions))
         # print(remaining_solutions)
-        score[i] = knuth_score(guess,remaining_solutions)
+        score[i] = algorithm(guess,remaining_solutions)
         # print(temp)
 
 
@@ -66,7 +79,8 @@ def find_next_guess(remaining_solutions):
     return solutions[indexes[0]]
 
 
-def solveKnuth(answer):
+
+def solve(answer, algorithm):
     remaining_solutions = list(product(range(6), repeat=4))
     initial_guess = [0,0,1,1]
     guesses = list()
@@ -78,7 +92,7 @@ def solveKnuth(answer):
         return guesses, pegs
     remaining_solutions = remove_solutions(initial_guess,r,y,remaining_solutions)
     for _ in range(5):
-        next_guess = find_next_guess(remaining_solutions)
+        next_guess = find_next_guess(remaining_solutions, algorithm)
         r,y = compare(next_guess,answer)
         pegs.append((r,y))
         guesses.append(next_guess)
