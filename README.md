@@ -24,6 +24,3 @@ Slagalica is Mastermind adaptation with 4 fields and 6 colors.
 - The goal is to guess the correct combination of symbols within a limited number of attempts.
 - Comparation of two agents and guesses used for solving.
 
-## License
-This project is licensed under the [MIT License](LICENSE).
-
